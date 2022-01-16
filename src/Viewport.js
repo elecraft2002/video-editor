@@ -1,17 +1,18 @@
-import React from 'react'
 import Viewport from "./viewport.css"
 import Layer from './Layer'
 
-export default function Preview({ videoSettings, layers }) {
+export default function Preview({ videoSettings, layers, time }) {
     console.log(layers)
     return (
         <div className='viewport' style={{
             width: videoSettings.resolution.width,
             height: videoSettings.resolution.height,
-            overflow:"hidden"
+            overflow: "hidden"
         }}>
             {layers.map(layer => {
-                return <Layer key={layer.id} data={layer} />
+                if ((layer.start <= time) && (layer.start + layer.duration * layer.speed >= time))
+                    return <Layer key={layer.id} data={layer} />
+                return
             })}
         </div >
     )

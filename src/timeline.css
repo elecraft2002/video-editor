@@ -60,4 +60,5 @@
   height: 10px;
   transform: translateX(-50%);
   background-color: yellow;
+  cursor: pointer;
 }

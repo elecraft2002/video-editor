@@ -16,6 +16,8 @@ function App() {
 
   const [time, setTime] = useState(0)
 
+  const [mouseDifference, setMouseDifference] = useState()
+
   function createNewLayer() {
     let newLayer = {
       resolution: {
@@ -23,19 +25,20 @@ function App() {
         height: 500
       },
       position: {
-        x: 50,
+        x: 500,
         y: 50
       },
-      rotation: 10,
+      rotation: 210,
       opacity: 50,
       id: uuidv4(),
       type: "solid",
-      backgroundColor: "red",   //Pouze u solid
-      duration: 100,   //ms
-      start: 500,   //ms
+      backgroundColor: "pink",   //Pouze u solid
+      duration: 1000,   //ms
+      start: 300,   //ms
       delay: 500,   //ms
       name: "Layer",
-      effects: []
+      effects: [],
+      speed: 1,
     }
     setLayers(previousState => {
       return (
@@ -48,8 +51,8 @@ function App() {
     <>
       <button onClick={createNewLayer}>AddLayer</button>
       {time}
-      <Viewport videoSettings={videoSettings} layers={layers} keyframe={0} />
-      <Timeline time={time} setTime={setTime} videoSettings={videoSettings} layers={layers} />
+      <Viewport time={time} setTime={setTime} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} videoSettings={videoSettings} layers={layers} />
+      <Timeline time={time} setTime={setTime} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} videoSettings={videoSettings} layers={layers} />
     </>
   );
 }

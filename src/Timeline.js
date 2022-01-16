@@ -7,7 +7,7 @@ import TimelineSlider from './TimelineSlider'
 import { useState } from "react"
 
 
-export default function Timeline({ videoSettings, layers, setTime, time }) {
+export default function Timeline({ videoSettings, layers, setTime, time, mouseDifference, setMouseDifference }) {
 
     const [settings, setSettings] = useState({
         timelinePercentage: 30,
@@ -33,7 +33,7 @@ export default function Timeline({ videoSettings, layers, setTime, time }) {
 
             </ul>
             <ul ref={timeline}>
-                <TimelineSlider setTime={setTime} time={time} settings={settings} timeline={timeline} />
+                <TimelineSlider mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} setTime={setTime} time={time} settings={settings} timeline={timeline} />
                 {
                     layers.map(layer => {
                         return <TimelineLayerBlock settings={settings} key={layer.id} data={layer} />
