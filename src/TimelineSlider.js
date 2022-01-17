@@ -1,12 +1,16 @@
 import React from 'react'
 
-export default function TimelineSlider({ timeline, setTime, time, settings, mouseDifference, setMouseDifference }) {
+export default function TimelineSlider({ timeline, setTime, setLayers, time, settings, mouseDifference, setMouseDifference, videoSettings }) {
     function handleDrag(mouse) {
+        if (mouseDifference === null)
+            return setMouseDifference(mouse)
         if (mouse.clientX === 0) return
-        const newTime = time + (mouse.clientX - mouseDifference.clientX)
-        console.log(newTime)
+        const newTime = time + (mouse.clientX - mouseDifference.clientX) * (settings.visibleTime / timeline.current.clientWidth)
         setMouseDifference(mouse)
-        if (Math.abs(mouse.clientX - mouseDifference.clientX) > 25 /* || newTime === NaN */) return
+        if (Math.abs(mouse.clientX - mouseDifference.clientX) > 25) return
+        if (newTime < 0 || newTime > videoSettings.timelineLength)
+            return
+        //Nastaví nový čas
         setTime(newTime)
     }
 
@@ -16,7 +20,7 @@ export default function TimelineSlider({ timeline, setTime, time, settings, mous
         <div className='slider' style={{
             left: `${sliderPosition}%`
         }}>
-            <div onDrag={handleDrag} className='slider__controller'></div>
+            <div draggable onDrag={handleDrag} className='slider__controller'></div>
         </div>
     )
 }

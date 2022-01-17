@@ -1,18 +1,42 @@
 import React from 'react'
 
-export default function Layer({ data }) {
-    if (data.type === "solid") {
+export default function Layer({ layer, setLayers, time }) {
+    const canvas = React.createRef()
+    const video = React.createRef()
+    React.useEffect(() => {
+        if (layer.type !== "video") return
+        //Update video time
+        video.current.currentTime = time / 1000 + layer.start / 1000 + layer.delay / 1000
+
+    });
+    if (layer.type === "solid") {
         return (
             <div style={{
-                backgroundColor: data.backgroundColor,
-                width: data.resolution.width,
-                height: data.resolution.height,
+                backgroundColor: layer.backgroundColor,
+                width: layer.resolution.width + "px",
+                height: layer.resolution.height + "px",
                 position: "absolute",
-                transform: `translate(${data.position.x}px,${data.position.y}px) rotate(${data.rotation}deg)`
+                transformOrigin: `${layer.transformOrigin.x}px ${layer.transformOrigin.y}px`,
+                transform: `translate(${layer.position.x}px,${layer.position.y}px) rotate(${layer.rotation}deg)`,
+                opacity: layer.opacity + "%",
             }}>
-                {data.id}
+                {layer.id}
             </div>
         )
     }
+
+
+    if (layer.type === "video") {
+
+
+        return (
+            <>
+                <video ref={video} src={layer.fileUrl}></video>
+                <canvas ref={canvas} width={layer.resolution.width} height={layer.resolution.height}></canvas>
+            </>
+        )
+
+    }
+
     return null
 }

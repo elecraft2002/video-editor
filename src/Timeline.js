@@ -7,7 +7,7 @@ import TimelineSlider from './TimelineSlider'
 import { useState } from "react"
 
 
-export default function Timeline({ videoSettings, layers, setTime, time, mouseDifference, setMouseDifference }) {
+export default function Timeline({ videoSettings, layers, setLayers, setTime, time, mouseDifference, setMouseDifference }) {
 
     const [settings, setSettings] = useState({
         timelinePercentage: 30,
@@ -15,28 +15,27 @@ export default function Timeline({ videoSettings, layers, setTime, time, mouseDi
         visibleTime: 10000,//ms
     })
 
-
     const timeline = React.createRef()
-
+    const reversedLayers = [...layers].reverse()
     return (
-        <div className='timeline' style={{
+        <div className='timeline window' style={{
             gridTemplateColumns: `${settings.timelinePercentage}% ${100 - settings.timelinePercentage}%`
         }}>
             <div></div>
             <TimelineIndicators videoSettings={videoSettings} settings={settings} />
             <ul>
                 {
-                    layers.map(layer => {
+                    reversedLayers.map(layer => {
                         return <TimelineLayer key={layer.id} data={layer} />
                     })
                 }
 
             </ul>
             <ul ref={timeline}>
-                <TimelineSlider mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} setTime={setTime} time={time} settings={settings} timeline={timeline} />
+                <TimelineSlider setLayers={setLayers} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} setTime={setTime} time={time} videoSettings={videoSettings} settings={settings} timeline={timeline} />
                 {
-                    layers.map(layer => {
-                        return <TimelineLayerBlock settings={settings} key={layer.id} data={layer} />
+                    reversedLayers.map(layer => {
+                        return <TimelineLayerBlock mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} setLayers={setLayers} layers={layers} settings={settings} key={layer.id} layer={layer} timeline={timeline} />
                     })
                 }
 

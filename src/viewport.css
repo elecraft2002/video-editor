@@ -2,3 +2,7 @@
     background-color: gray;
     position: relative;
 }
+
+.viewport *{
+    position: absolute;
+}

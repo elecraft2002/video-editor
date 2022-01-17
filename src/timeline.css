@@ -7,7 +7,7 @@
   min-height: 1.5rem;
 }
 
-.timeline__line:nth-child(even) {
+.timeline ul:first-child .timeline__line:nth-child(even) {
   background-color: var(--darkGray);
 }
 
@@ -15,10 +15,11 @@
   padding: 0.5rem 0rem;
   margin: 0;
   position: relative;
+  overflow: hidden;
 }
 .timeline {
   margin-top: 2rem;
-  background-color: var(--lightGray);
+  background-color: var(--gray);
   display: flex;
 }
 
@@ -43,6 +44,29 @@
   position: absolute;
   border-radius: 2px;
   height: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+}
+
+.timeline__block--start,
+.timeline__block--end {
+  height: 100%;
+  background-color: var(--border);
+  width: 10px;
+  max-width: 30%;
+}
+.timeline__block--start{
+  left: 0;
+}
+
+.timeline__block--center{
+  height: 100%;
+  width: -webkit-fill-available;
+}
+
+.timeline__block--end{
+  right: 0;
 }
 
 .slider {

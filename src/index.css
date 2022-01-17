@@ -8,4 +8,24 @@ body {
   --darkGray: rgb(54, 54, 54);
   --light: white;
   --black: black;
+  --border: rgb(0, 140, 255);
+
+  color: var(--light);
+  background-color: var(--darkGray);
+}
+.window {
+  border: solid 1px var(--border);
+  padding: 0.25rem;
+}
+
+.addLayer {
+  background-color: var(--darkGray);
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.addLayer__section {
+  display: inline;
 }

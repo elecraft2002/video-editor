@@ -2,7 +2,8 @@ import React from "react";
 import Viewport from "./Viewport";
 import Timeline from "./Timeline";
 import { useState } from "react"
-import { v4 as uuidv4 } from 'uuid';
+import AddLayer from "./AddLayer";
+import Controlls from "./Controlls";
 
 function App() {
   const [videoSettings, setVideoSettings] = useState({
@@ -10,49 +11,36 @@ function App() {
       width: 1280,
       height: 720
     },
-    timelineLength: 10000 //ms
+    timelineLength: 10000, //ms
+    framerate: 60,
+    running: false,
   })
   const [layers, setLayers] = useState([])
 
   const [time, setTime] = useState(0)
 
-  const [mouseDifference, setMouseDifference] = useState()
+  const [mouseDifference, setMouseDifference] = useState(null)
 
-  function createNewLayer() {
-    let newLayer = {
-      resolution: {
-        width: 400,
-        height: 500
-      },
-      position: {
-        x: 500,
-        y: 50
-      },
-      rotation: 210,
-      opacity: 50,
-      id: uuidv4(),
-      type: "solid",
-      backgroundColor: "pink",   //Pouze u solid
-      duration: 1000,   //ms
-      start: 300,   //ms
-      delay: 500,   //ms
-      name: "Layer",
-      effects: [],
-      speed: 1,
-    }
-    setLayers(previousState => {
-      return (
-        [...previousState, newLayer]
-      )
-    })
+  const [createLayer, setCreateLayerState] = useState(false)
+
+  const layerTypes = ["video", "solid"]
+
+  function focusLayer() {
+
+  }
+
+  function handleCreateNewLayerClick(e) {
+    setCreateLayerState(e.target.dataset.type)
   }
 
   return (
     <>
-      <button onClick={createNewLayer}>AddLayer</button>
-      {time}
-      <Viewport time={time} setTime={setTime} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} videoSettings={videoSettings} layers={layers} />
-      <Timeline time={time} setTime={setTime} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} videoSettings={videoSettings} layers={layers} />
+      <button onClick={handleCreateNewLayerClick} data-type="solid">AddSolid</button>
+      <button onClick={handleCreateNewLayerClick} data-type="video">AddVideo</button>
+      <Viewport focusLayer={focusLayer} time={time} setTime={setTime} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} videoSettings={videoSettings} layers={layers} setLayers={setLayers} />
+      <Controlls time={time} setTime={setTime} videoSettings={videoSettings} />
+      <Timeline focusLayer={focusLayer} time={time} setTime={setTime} mouseDifference={mouseDifference} setMouseDifference={setMouseDifference} videoSettings={videoSettings} layers={layers} setLayers={setLayers} />
+      <AddLayer setLayers={setLayers} videoSettings={videoSettings} createLayer={createLayer} setCreateLayerState={setCreateLayerState} />
     </>
   );
 }
